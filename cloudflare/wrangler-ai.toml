@@ -1,0 +1,18 @@
+name = "folio-ai"
+main = "ai-worker.js"
+compatibility_date = "2026-08-01"
+workers_dev = true
+
+routes = [
+  { pattern = "ai.folio.daiquiri.dev", custom_domain = true }
+]
+
+[ai]
+binding = "AI"
+
+[[kv_namespaces]]
+binding = "AI_KV"
+id = "2d51d174fc4d456d8c3548898476b7b7"
+
+[vars]
+MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8"

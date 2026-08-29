@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "Folio",
+  "version": "2.0.0",
+  "description": "Bookmark manager with E2E-encrypted cross-browser sync, Raindrop.io integration, AI organization, and cleanup tools.",
+  "permissions": [
+    "bookmarks",
+    "storage",
+    "alarms",
+    "identity",
+    "management",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://api.raindrop.io/*",
+    "https://raindrop.io/*",
+    "https://*.daiquiri.dev/*",
+    "https://api.polar.sh/*",
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Folio",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "homepage_url": "https://github.com/daiquiridev/folio_public",
+  "omnibox": {
+    "keyword": "f"
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  }
+}

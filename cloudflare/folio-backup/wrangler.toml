@@ -1,0 +1,17 @@
+name = "folio-backup"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+workers_dev = true
+
+# Serve on a dedicated subdomain, separate from the Raindrop OAuth worker.
+# Requires the daiquiri.dev zone to be on this Cloudflare account.
+routes = [
+  { pattern = "folio.daiquiri.dev", custom_domain = true }
+]
+
+# R2 bucket for E2E encrypted bookmark backup. The worker only ever stores
+# opaque ciphertext + key material it cannot decrypt. Create with:
+#   wrangler r2 bucket create folio-bookmark-sync
+[[r2_buckets]]
+binding = "SYNC_BUCKET"
+bucket_name = "folio-bookmark-sync"

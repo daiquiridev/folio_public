@@ -1,0 +1,12 @@
+name = "folio-sync"
+main = "sync-worker.js"
+compatibility_date = "2025-01-01"
+workers_dev = true
+
+routes = [
+  { pattern = "sync.folio.daiquiri.dev", custom_domain = true }
+]
+
+[[r2_buckets]]
+binding = "SYNC_BUCKET"
+bucket_name = "folio-bookmark-sync"

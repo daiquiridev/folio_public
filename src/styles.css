@@ -1,0 +1,373 @@
+@import "tailwindcss";
+@import "@cloudflare/kumo/styles/tailwind";
+@source "../node_modules/@cloudflare/kumo/dist/**/*.js";
+
+/* ─── Folio riso zine — tip ──────────────────────────────────────────────
+   Bricolage Grotesque (OFL), locally bundled — display voice of the brand.
+   Body text stays on the system stack for legibility at small sizes.    */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("./fonts/BricolageGrotesque-latin.woff2") format("woff2");
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F, U+2074, U+20AC, U+2122;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("./fonts/BricolageGrotesque-latinext.woff2") format("woff2");
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020;
+}
+
+@theme {
+  /* Riso paper: cream page, white cards */
+  --color-app-bg: light-dark(#F2EFE9, #101024);
+  --color-app-surface: light-dark(#FFFFFF, #1A1A3E);
+  --color-app-border: light-dark(rgb(26 26 62 / 0.10), #32325E);
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+ * Folio riso theme — Kumo token overrides from the logo illustration:
+ *   periwinkle #6B7BF7 · teal #00C49A · golden #F5B800 · peach #FFD2B2
+ *   coral #FF5A5A · navy #1A1A3E · off-white #F2EFE9 · white #FFFFFF
+ */
+:root {
+  /* Brand / primary */
+  --color-kumo-brand: #6B7BF7;
+  --color-kumo-brand-hover: #5563E8;
+  --text-color-kumo-brand: light-dark(#4A5AE8, #A5AEFB);
+  --text-color-kumo-link: light-dark(#4A5AE8, #A5AEFB);
+
+  /* Surfaces */
+  --color-kumo-base: light-dark(#FFFFFF, #14142B);
+  --color-kumo-elevated: light-dark(#FFFFFF, #1A1A3E);
+  --color-kumo-recessed: light-dark(#F2EFE9, #101024);
+  --color-kumo-tint: light-dark(#F2EFE9, #23234A);
+  --color-kumo-line: light-dark(rgb(26 26 62 / 0.14), #32325E);
+  --color-kumo-hairline: light-dark(rgb(26 26 62 / 0.28), #45457A);
+  --color-kumo-interact: light-dark(#DCD8F2, #3A3A66);
+  --color-kumo-contrast: light-dark(#1A1A3E, #F2EFE9);
+
+  /* Text */
+  --text-color-kumo-default: light-dark(#1A1A3E, #F2EFE9);
+  --text-color-kumo-strong: light-dark(#12122E, #FFFFFF);
+  --text-color-kumo-subtle: light-dark(rgb(26 26 62 / 0.62), rgb(242 239 233 / 0.62));
+  --text-color-kumo-placeholder: light-dark(rgb(26 26 62 / 0.38), rgb(242 239 233 / 0.38));
+  --text-color-kumo-inverse: light-dark(#FFFFFF, #1A1A3E);
+
+  /* Status: success = teal, warning = golden, danger = coral */
+  --color-kumo-success: light-dark(#8FE8D2, #045E4B);
+  --text-color-kumo-success: light-dark(#067A62, #4FE0BD);
+  --color-kumo-success-tint: light-dark(#DDF7F0, #0A3A30);
+  --color-kumo-warning: light-dark(#F9DD8F, #6B5200);
+  --text-color-kumo-warning: light-dark(#8A6A00, #F5C94D);
+  --color-kumo-warning-tint: light-dark(#FBF0CE, #453800);
+  --color-kumo-danger: light-dark(#FF5A5A, #7A2020);
+  --text-color-kumo-danger: light-dark(#D93A3A, #FF8A8A);
+
+  /* Primitive ramps the components lean on directly */
+  --color-blue-400: #96A0FA;
+  --color-blue-500: #6B7BF7;
+  --color-blue-600: #5563E8;
+  --color-blue-700: #4A5AE8;
+  --color-blue-800: #3D4BC9;
+  --color-red-400: #FF7B7B;
+  --color-red-500: #FF5A5A;
+  --color-red-600: #E84545;
+  --color-teal-300: #7FE5CE;
+  --color-teal-500: #00C49A;
+  --color-teal-600: #00A583;
+  --color-yellow-300: #F9DD8F;
+  --color-yellow-500: #F5B800;
+  --color-green-300: #8FE8D2;
+  --color-green-500: #00C49A;
+  --color-green-800: #056B55;
+  --color-green-900: #045E4B;
+  --color-orange-300: #FFD2B2;
+  --color-orange-500: #FFB27E;
+
+  /* Riso ink for hard offset shadows (print misregistration feel) */
+  --riso-ink: light-dark(#1A1A3E, #05050f);
+}
+
+/* ─── Riso paper atmosphere ─────────────────────────────────────────────
+   Flat speckle grain over everything + one flat teal circle behind the
+   content, echoing the logo's backdrop. Flat fills only — no gradients. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+[data-mode="dark"] body::before { opacity: 0.10; mix-blend-mode: screen; }
+
+body::after {
+  content: "";
+  position: fixed;
+  top: -140px;
+  right: -140px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: #00C49A;
+  opacity: 0.10;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── Riso components ──────────────────────────────────────────────── */
+
+/* Sticker card: chunky outline + hard offset shadow, like a cut-out print */
+.riso-card {
+  background: var(--color-app-surface);
+  border: 2px solid var(--riso-ink) !important;
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 0 var(--riso-ink) !important;
+}
+
+/* Section title: display face in navy with a golden base-bar underneath —
+   the logo's yellow pedestal, miniaturized */
+.riso-card-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-color-kumo-strong) !important;
+  position: relative;
+  padding-left: 14px;
+}
+.riso-card-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background: #F5B800;
+  border: 1.5px solid var(--riso-ink);
+}
+
+/* Buttons — every Kumo button becomes a pressable riso sticker */
+button[class*="bg-kumo-brand"],
+button[class*="ring-kumo-hairline"] {
+  border: 2px solid var(--riso-ink) !important;
+  box-shadow: 3px 3px 0 0 var(--riso-ink);
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+button[class*="bg-kumo-brand"]:hover:not(:disabled),
+button[class*="ring-kumo-hairline"]:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 0 var(--riso-ink);
+}
+button[class*="bg-kumo-brand"]:active:not(:disabled),
+button[class*="ring-kumo-hairline"]:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--riso-ink);
+}
+/* ghost/plain buttons keep their quiet look — no outline treatment */
+
+/* Inputs: honest 2px ink border, periwinkle focus */
+.riso-app input[type="text"],
+.riso-app input[type="password"],
+.riso-app input[type="email"],
+.riso-app input:not([type]),
+.riso-app textarea,
+.riso-app select {
+  border-radius: 10px;
+}
+.riso-app :focus-visible {
+  outline: 3px solid #6B7BF7 !important;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Sidebar nav: active item pops out as a sticker pill */
+.riso-nav-item {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-weight: 550;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+.riso-nav-item:hover { background: var(--color-kumo-tint); }
+.riso-nav-item[data-active="true"] {
+  background: var(--color-app-surface);
+  border-color: var(--riso-ink);
+  box-shadow: 3px 3px 0 0 var(--riso-ink);
+  color: var(--text-color-kumo-strong);
+}
+.riso-nav-item[data-active="true"] svg { color: #6B7BF7; }
+
+/* Wordmark lockup in the sidebar */
+.riso-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.riso-brand img {
+  width: 30px;
+  height: 30px;
+  image-rendering: -webkit-optimize-contrast;
+}
+.riso-wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 21px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--text-color-kumo-strong);
+  /* riso misregistration: coral ghost pass behind the ink pass */
+  text-shadow: 2px 2px 0 rgb(255 90 90 / 0.55);
+}
+.riso-brand-bar {
+  margin-top: 7px;
+  height: 6px;
+  width: 74px;
+  border-radius: 999px;
+  background: #F5B800;
+  border: 1.5px solid var(--riso-ink);
+}
+
+/* Page heading (content header) speaks in the display face too */
+.riso-page-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  color: var(--text-color-kumo-strong);
+}
+
+/* Details/summary guides, badges, code chips inherit chunky radii */
+.riso-app code { border-radius: 8px; }
+.riso-app ::selection { background: #FFD2B2; color: #1A1A3E; }
+
+/* ─── New tab page ─────────────────────────────────────────────────────
+   Same riso grammar at poster scale: the clock is the one loud element
+   (ink pass + coral misregistration ghost), everything else is stickers. */
+.newtab-clock {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(56px, 10vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--text-color-kumo-strong);
+  text-shadow: 4px 4px 0 rgb(255 90 90 / 0.5);
+  font-variant-numeric: tabular-nums;
+}
+.newtab-date {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-weight: 550;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-color-kumo-subtle);
+}
+
+.newtab-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  height: 56px;
+  background: var(--color-app-surface);
+  border: 2px solid var(--riso-ink);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 0 var(--riso-ink);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.newtab-search:focus-within {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 0 var(--riso-ink);
+}
+.newtab-search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none !important;
+  font-size: 17px;
+  color: var(--text-color-kumo-default);
+}
+.newtab-search input::placeholder { color: var(--text-color-kumo-placeholder); }
+
+.riso-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: var(--color-app-surface);
+  border: 2px solid var(--riso-ink);
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 0 var(--riso-ink);
+  font-family: var(--font-display);
+  font-weight: 550;
+  font-size: 13.5px;
+  color: var(--text-color-kumo-default);
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  cursor: pointer;
+}
+.riso-chip:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 0 var(--riso-ink);
+}
+.riso-chip:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--riso-ink);
+}
+.riso-chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 1.5px solid var(--riso-ink);
+  flex-shrink: 0;
+}
+.riso-chip-folder[data-open="true"] {
+  background: var(--color-kumo-tint);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--riso-ink);
+}
+
+.newtab-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 14px;
+  font-size: 14px;
+  color: var(--text-color-kumo-default);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-kumo-line);
+}
+.newtab-result:last-child { border-bottom: none; }
+.newtab-result:hover, .newtab-result-active { background: var(--color-kumo-tint); }
+
+/* Chunky ink scrollbar on cream */
+.riso-app ::-webkit-scrollbar { width: 10px; height: 10px; }
+.riso-app ::-webkit-scrollbar-track { background: transparent; }
+.riso-app ::-webkit-scrollbar-thumb {
+  background: var(--color-kumo-interact);
+  border-radius: 999px;
+  border: 2px solid var(--color-app-bg);
+}
+.riso-app ::-webkit-scrollbar-thumb:hover { background: #6B7BF7; }

@@ -1,0 +1,23 @@
+name = "login-with-raindrop"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+workers_dev = true
+
+# R2 bucket for E2E encrypted bookmark sync. The worker only ever stores opaque
+# ciphertext + key material it cannot decrypt. Create with:
+#   wrangler r2 bucket create folio-bookmark-sync
+[[r2_buckets]]
+binding = "SYNC_BUCKET"
+bucket_name = "folio-bookmark-sync"
+
+[vars]
+# Non-secret debug flag to verify bindings are passed in Git deploys.
+X_CHECK = "1"
+RAINDROP_CLIENT_ID = "68d7deb75430135b7fc617bc"
+
+# SECRETS — never commit these. Set them with Wrangler (or in the dashboard):
+#   wrangler secret put RAINDROP_CLIENT_SECRET
+#   wrangler secret put SESSION_SECRET
+# NOTE: the previous values were committed to git history and MUST be rotated:
+#   - Generate a new Raindrop client secret at https://raindrop.io/developer
+#   - Generate a new random SESSION_SECRET (e.g. `openssl rand -hex 32`)

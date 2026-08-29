@@ -1,0 +1,15 @@
+name = "folio-oauth"
+main = "oauth-worker.js"
+compatibility_date = "2025-01-01"
+workers_dev = true
+
+routes = [
+  { pattern = "oauth.folio.daiquiri.dev", custom_domain = true }
+]
+
+[vars]
+RAINDROP_CLIENT_ID = "68d7deb75430135b7fc617bc"
+
+# SECRETS — set with Wrangler:
+#   npx wrangler secret put RAINDROP_CLIENT_SECRET --config wrangler-oauth.toml
+#   npx wrangler secret put SESSION_SECRET --config wrangler-oauth.toml
